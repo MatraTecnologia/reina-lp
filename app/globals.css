@@ -23,40 +23,8 @@ body {
   font-family: var(--font-bebas), sans-serif;
 }
 
-/* Cursor personalizado */
-* {
-  cursor: none !important;
-}
-
-body::after {
-  content: '';
-  position: fixed;
-  width: 10px;
-  height: 10px;
-  background: #D01C1C;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 99999;
-  transform: translate(-50%, -50%);
-  transition: transform 0.1s ease, background 0.2s ease;
-  top: var(--cy, -20px);
-  left: var(--cx, -20px);
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  width: 36px;
-  height: 36px;
-  border: 1.5px solid #D01C1C;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 99998;
-  transform: translate(-50%, -50%);
-  transition: top 0.12s ease, left 0.12s ease, width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
-  top: var(--cy, -40px);
-  left: var(--cx, -40px);
-}
+/* Cursor oculto — controlado pelo CustomCursor.tsx */
+* { cursor: none !important; }
 
 /* Scrollbar personalizada */
 ::-webkit-scrollbar {
