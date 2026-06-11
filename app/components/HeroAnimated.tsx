@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
+import Image from 'next/image'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
@@ -47,22 +48,14 @@ export default function HeroAnimated({ waLink }: HeroAnimatedProps) {
       ref={container}
       className="relative h-screen min-h-[640px] flex items-center overflow-hidden bg-[#0A0A0A]"
     >
-      {/* Fallback image (exibida se o vídeo não carregar) */}
-      <div className="absolute inset-0">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/hero.png" alt="" className="w-full h-full object-cover object-center" />
-      </div>
-
-      {/* Vídeo background */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover object-center"
-      >
-        <source src="/video-hero.mp4" type="video/mp4" />
-      </video>
+      {/* Foto de fundo */}
+      <Image
+        src="/hero.png"
+        alt="Reina Studio Car Detailing"
+        fill
+        className="object-cover object-center"
+        priority
+      />
 
       {/* Overlay base sempre presente */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/20" />

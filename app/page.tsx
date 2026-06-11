@@ -97,7 +97,7 @@ const GALERIA = [
   "/lavagem-moto.png",
   "/lavagem-detalhada.png",
   "/limpeza-banco.png",
-  "/secao-processo.png",
+  "/suv-depois.png",
 ];
 
 export default function Home() {
@@ -320,7 +320,7 @@ export default function Home() {
           <ScrollReveal delay={0.2}>
             <div className="relative h-[520px] overflow-hidden">
               <Image
-                src="/secao-processo.png"
+                src="/detalhamento-carro.png"
                 alt="Processo Reina Studio"
                 fill
                 className="object-cover"
