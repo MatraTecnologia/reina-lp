@@ -11,6 +11,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* compensa o header fixo */
 }
 
 body {

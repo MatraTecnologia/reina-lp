@@ -48,9 +48,9 @@ export default function HeroAnimated({ waLink }: HeroAnimatedProps) {
       ref={container}
       className="relative h-screen min-h-[640px] flex items-center overflow-hidden bg-[#0A0A0A]"
     >
-      {/* Foto de fundo */}
+      {/* Foto de fundo — estúdio real com Camaro no túnel LED */}
       <Image
-        src="/hero.png"
+        src="/galeria-reina/DSC05051.jpg"
         alt="Reina Studio Car Detailing"
         fill
         className="object-cover object-center"

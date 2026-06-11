@@ -15,19 +15,19 @@ const WA_GERAL = waLink("Olá! Gostaria de agendar um serviço de detailing.");
 
 const SERVICOS = [
   {
-    img: "/lavagem-detalhada.png",
+    img: "/galeria-reina/DSC05056.jpg",
     title: "Lavagem Detalhada",
     desc: "Chassi e motor, retirada das rodas, compartimento de combustível, lavagem com Shampoo PH neutro, aplicação de PPF para conservação, polimento de farol e vidros.",
     wa: waLink("Olá! Tenho interesse na Lavagem Detalhada. Pode me passar mais informações?"),
   },
   {
-    img: "/lavagem-moto.png",
+    img: "/galeria-reina/DSC05203.jpg",
     title: "Lavagem de Motos e Jet Sky",
     desc: "Motos de Alta Cilindrada, Tricícloe e Jet Sky com produtos ecologicamente corretos. Polimento técnico com opções de cristalização, selante ou vitrificação.",
     wa: waLink("Olá! Tenho interesse na Lavagem de Moto / Jet Sky. Pode me passar mais informações?"),
   },
   {
-    img: "/limpeza-banco.png",
+    img: "/galeria-reina/DSC05189.jpg",
     title: "Higienização e Hidratação",
     desc: "Higienização interna completa, limpeza de painel com pincel, hidratação em bancos de couro e Oxi-sanatização para eliminar odores, bactérias e fungos.",
     wa: waLink("Olá! Tenho interesse na Higienização e Hidratação de bancos. Pode me passar mais informações?"),
@@ -92,12 +92,15 @@ const PROCESSO = [
 ];
 
 const GALERIA = [
-  "/detalhamento-carro.png",
-  "/garagem-luxo.png",
-  "/lavagem-moto.png",
-  "/lavagem-detalhada.png",
-  "/limpeza-banco.png",
-  "/suv-depois.png",
+  "/galeria-reina/DSC05051.jpg",
+  "/galeria-reina/DSC05052.jpg",
+  "/galeria-reina/DSC05056.jpg",
+  "/galeria-reina/DSC05091.jpg",
+  "/galeria-reina/DSC05099.jpg",
+  "/galeria-reina/DSC05134.jpg",
+  "/galeria-reina/DSC05176.jpg",
+  "/galeria-reina/DSC05075.jpg",
+  "/galeria-reina/DSC05203.jpg",
 ];
 
 export default function Home() {
@@ -163,7 +166,7 @@ export default function Home() {
         </ScrollReveal>
         <ScrollReveal delay={0.15}>
           <div className="relative h-96 overflow-hidden">
-            <Image src="/garagem-luxo.png" alt="Garagem Reina Studio" fill className="object-cover" />
+            <Image src="/galeria-reina/DSC05091.jpg" alt="Vinícius Reina — Fundador" fill className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/60 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 h-px bg-[#D01C1C]/40" />
           </div>
@@ -320,8 +323,8 @@ export default function Home() {
           <ScrollReveal delay={0.2}>
             <div className="relative h-[520px] overflow-hidden">
               <Image
-                src="/detalhamento-carro.png"
-                alt="Processo Reina Studio"
+                src="/galeria-reina/DSC05052.jpg"
+                alt="Estúdio Reina — Processo"
                 fill
                 className="object-cover"
               />
@@ -371,7 +374,7 @@ export default function Home() {
               </h2>
             </div>
           </ScrollReveal>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
             {GALERIA.map((img, i) => (
               <ScrollReveal key={i} delay={i * 0.06} y={30}>
                 <div className="relative aspect-square overflow-hidden group">
@@ -392,7 +395,7 @@ export default function Home() {
       {/* ── CTA BANNER ── */}
       <section className="relative py-32 px-6 text-center overflow-hidden">
         <div className="absolute inset-0">
-          <Image src="/detalhamento-carro.png" alt="" fill className="object-cover opacity-10" />
+          <Image src="/galeria-reina/DSC05051.jpg" alt="" fill className="object-cover opacity-10" />
         </div>
         <div className="absolute inset-0 bg-[#0A0A0A]/80" />
         <ScrollReveal>

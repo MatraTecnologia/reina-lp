@@ -3,31 +3,37 @@
 import { useEffect, useRef } from 'react'
 
 export default function CustomCursor() {
-  const dot = useRef<HTMLDivElement>(null)
+  const dot  = useRef<HTMLDivElement>(null)
   const ring = useRef<HTMLDivElement>(null)
+  const hovered = useRef(false)
 
   useEffect(() => {
-    let ringX = 0
-    let ringY = 0
-    let dotX = 0
-    let dotY = 0
+    // Esconde cursor nativo em todo o documento
+    document.documentElement.style.cursor = 'none'
+
+    let ringX = 0, ringY = 0, dotX = 0, dotY = 0
     let raf: number
+    let visible = false
 
     const onMove = (e: MouseEvent) => {
       dotX = e.clientX
       dotY = e.clientY
+
+      if (!visible) {
+        visible = true
+        if (dot.current)  dot.current.style.opacity  = '1'
+        if (ring.current) ring.current.style.opacity = '1'
+      }
     }
 
     const animate = () => {
-      // Dot segue o mouse na hora
       if (dot.current) {
         dot.current.style.left = dotX + 'px'
         dot.current.style.top  = dotY + 'px'
       }
 
-      // Ring suaviza com lerp
-      ringX += (dotX - ringX) * 0.12
-      ringY += (dotY - ringY) * 0.12
+      ringX += (dotX - ringX) * 0.10
+      ringY += (dotY - ringY) * 0.10
 
       if (ring.current) {
         ring.current.style.left = ringX + 'px'
@@ -37,66 +43,100 @@ export default function CustomCursor() {
       raf = requestAnimationFrame(animate)
     }
 
-    const onEnterLink = () => {
-      ring.current?.classList.add('cursor-hover')
-      dot.current?.classList.add('cursor-hover')
-    }
-    const onLeaveLink = () => {
-      ring.current?.classList.remove('cursor-hover')
-      dot.current?.classList.remove('cursor-hover')
+    // Event delegation — captura qualquer botão/link incluindo os criados depois do mount
+    const onOver = (e: MouseEvent) => {
+      const target = e.target as Element
+      if (target.closest('a, button, [data-cursor]')) {
+        if (hovered.current) return
+        hovered.current = true
+
+        if (dot.current) {
+          dot.current.style.transform = 'translate(-50%, -50%) scale(0)'
+          dot.current.style.opacity   = '0'
+        }
+        if (ring.current) {
+          ring.current.style.width       = '54px'
+          ring.current.style.height      = '54px'
+          ring.current.style.borderColor = 'rgba(208,28,28,0.9)'
+          ring.current.style.background  = 'rgba(208,28,28,0.08)'
+        }
+      }
     }
 
-    document.addEventListener('mousemove', onMove)
-    document.querySelectorAll('a, button, [data-cursor]').forEach(el => {
-      el.addEventListener('mouseenter', onEnterLink)
-      el.addEventListener('mouseleave', onLeaveLink)
-    })
+    const onOut = (e: MouseEvent) => {
+      const target = e.target as Element
+      if (target.closest('a, button, [data-cursor]')) {
+        hovered.current = false
+
+        if (dot.current) {
+          dot.current.style.transform = 'translate(-50%, -50%) scale(1)'
+          dot.current.style.opacity   = '1'
+        }
+        if (ring.current) {
+          ring.current.style.width       = '36px'
+          ring.current.style.height      = '36px'
+          ring.current.style.borderColor = 'rgba(208,28,28,0.55)'
+          ring.current.style.background  = 'transparent'
+        }
+      }
+    }
+
+    document.addEventListener('mousemove',  onMove)
+    document.addEventListener('mouseover',  onOver)
+    document.addEventListener('mouseout',   onOut)
 
     raf = requestAnimationFrame(animate)
 
     return () => {
+      document.documentElement.style.cursor = ''
       document.removeEventListener('mousemove', onMove)
+      document.removeEventListener('mouseover',  onOver)
+      document.removeEventListener('mouseout',   onOut)
       cancelAnimationFrame(raf)
     }
   }, [])
 
   return (
     <>
-      {/* Ponto vermelho — segue exato */}
+      {/* Ponto — segue o mouse exato */}
       <div
         ref={dot}
-        className="fixed z-[99999] pointer-events-none rounded-full bg-[#D01C1C] transition-transform duration-100"
         style={{
+          position: 'fixed',
+          zIndex: 99999,
+          pointerEvents: 'none',
+          borderRadius: '50%',
           width: 8,
           height: 8,
+          backgroundColor: '#D01C1C',
           transform: 'translate(-50%, -50%)',
           top: -20,
           left: -20,
+          opacity: 0,
+          transition: 'transform 0.15s ease, opacity 0.2s ease',
+          willChange: 'left, top',
         }}
       />
 
       {/* Anel — segue com lag */}
       <div
         ref={ring}
-        className="fixed z-[99998] pointer-events-none rounded-full border border-[#D01C1C]/70"
         style={{
+          position: 'fixed',
+          zIndex: 99998,
+          pointerEvents: 'none',
+          borderRadius: '50%',
           width: 36,
           height: 36,
+          border: '1.5px solid rgba(208,28,28,0.55)',
           transform: 'translate(-50%, -50%)',
           top: -40,
           left: -40,
-          transition: 'width 0.2s ease, height 0.2s ease, border-color 0.2s ease',
+          opacity: 0,
+          transition: 'width 0.22s ease, height 0.22s ease, border-color 0.22s ease, background 0.22s ease, opacity 0.3s ease',
+          willChange: 'left, top',
         }}
       />
-
-      <style>{`
-        .cursor-hover ~ div,
-        div.cursor-hover {
-          width: 52px !important;
-          height: 52px !important;
-          border-color: rgba(208,28,28,1) !important;
-        }
-      `}</style>
     </>
   )
 }
