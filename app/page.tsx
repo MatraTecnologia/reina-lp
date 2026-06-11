@@ -1,5 +1,7 @@
 import Image from "next/image";
 import WhatsAppFloat from "./components/WhatsAppFloat";
+import HeroAnimated from "./components/HeroAnimated";
+import ScrollReveal from "./components/ScrollReveal";
 
 const WA_NUMBER = "5543996231475";
 const WA_MSG = encodeURIComponent(
@@ -93,50 +95,7 @@ export default function Home() {
       </header>
 
       {/* ── HERO ── */}
-      <section className="relative h-screen min-h-[600px] flex items-center overflow-hidden">
-        <Image
-          src="/hero.png"
-          alt="Reina Studio Car Detailing"
-          fill
-          className="object-cover object-center"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/65 to-black/20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent" />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-20">
-          <p className="text-[#D01C1C] text-xs font-semibold tracking-[0.4em] uppercase mb-6">
-            Reina Studio Car Detailing — Londrina, PR
-          </p>
-          <h1 className="font-bebas leading-none mb-6" style={{ fontSize: 'clamp(60px, 10vw, 130px)' }}>
-            SEU CARRO<br />
-            MERECE<br />
-            <span className="text-[#D01C1C]">O MELHOR.</span>
-          </h1>
-          <p className="text-[#A0A0A0] text-lg max-w-md mb-10 leading-relaxed">
-            Detailing profissional com quem é apaixonado por carros como você.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <a
-              href={WA_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-[#D01C1C] hover:bg-[#FF2020] text-white font-semibold px-8 py-4 text-base transition-colors"
-            >
-              Falar no WhatsApp
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-              </svg>
-            </a>
-            <a
-              href="#servicos"
-              className="inline-flex items-center gap-2 border border-[#444] hover:border-white text-[#A0A0A0] hover:text-white font-medium px-8 py-4 text-base transition-colors"
-            >
-              Ver serviços
-            </a>
-          </div>
-        </div>
-      </section>
+      <HeroAnimated waLink={WA_LINK} />
 
       {/* ── STATS ── */}
       <section className="bg-[#111] border-y border-[#1e1e1e]">
@@ -145,11 +104,13 @@ export default function Home() {
             { num: "10+", label: "Anos de Experiência" },
             { num: "500+", label: "Veículos Atendidos" },
             { num: "100%", label: "Satisfação Garantida" },
-          ].map((s) => (
-            <div key={s.label} className="text-center py-8 px-8">
-              <div className="font-bebas text-5xl text-[#D01C1C] leading-none">{s.num}</div>
-              <div className="text-[#A0A0A0] text-xs uppercase tracking-[0.2em] mt-2">{s.label}</div>
-            </div>
+          ].map((s, i) => (
+            <ScrollReveal key={s.label} delay={i * 0.1} y={20}>
+              <div className="text-center py-8 px-8">
+                <div className="font-bebas text-5xl text-[#D01C1C] leading-none">{s.num}</div>
+                <div className="text-[#A0A0A0] text-xs uppercase tracking-[0.2em] mt-2">{s.label}</div>
+              </div>
+            </ScrollReveal>
           ))}
         </div>
       </section>
@@ -207,10 +168,10 @@ export default function Home() {
             </h2>
           </div>
           <div className="grid md:grid-cols-3 gap-5">
-            {SERVICOS.map((s) => (
+            {SERVICOS.map((s, i) => (
+              <ScrollReveal key={s.title} delay={i * 0.15} y={50}>
               <div
-                key={s.title}
-                className="group bg-[#111] border border-[#1e1e1e] hover:border-[#D01C1C]/40 transition-all duration-300 overflow-hidden flex flex-col"
+                className="group bg-[#111] border border-[#1e1e1e] hover:border-[#D01C1C]/40 transition-all duration-300 overflow-hidden flex flex-col h-full"
               >
                 <div className="relative h-56 overflow-hidden flex-shrink-0">
                   <Image
@@ -236,6 +197,7 @@ export default function Home() {
                   </a>
                 </div>
               </div>
+              </ScrollReveal>
             ))}
           </div>
           <div className="mt-10 text-center border border-[#1e1e1e] py-5 px-8">
@@ -257,17 +219,16 @@ export default function Home() {
           </h2>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
-          {DIFERENCIAIS.map((d) => (
-            <div
-              key={d.title}
-              className="border border-[#1e1e1e] p-8 hover:border-[#D01C1C]/40 transition-all group"
-            >
-              <div className="mb-5">{d.icon}</div>
-              <h3 className="font-bebas text-2xl mb-3 group-hover:text-[#D01C1C] transition-colors">
-                {d.title}
-              </h3>
-              <p className="text-[#A0A0A0] text-sm leading-relaxed">{d.desc}</p>
-            </div>
+          {DIFERENCIAIS.map((d, i) => (
+            <ScrollReveal key={d.title} delay={i * 0.15} y={40}>
+              <div className="border border-[#1e1e1e] p-8 hover:border-[#D01C1C]/40 transition-all group h-full">
+                <div className="mb-5">{d.icon}</div>
+                <h3 className="font-bebas text-2xl mb-3 group-hover:text-[#D01C1C] transition-colors">
+                  {d.title}
+                </h3>
+                <p className="text-[#A0A0A0] text-sm leading-relaxed">{d.desc}</p>
+              </div>
+            </ScrollReveal>
           ))}
         </div>
       </section>
