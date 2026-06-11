@@ -1,7 +1,6 @@
 'use client'
 
 import { useRef } from 'react'
-import Image from 'next/image'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
@@ -19,39 +18,23 @@ export default function HeroAnimated({ waLink }: HeroAnimatedProps) {
     () => {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
-      // Car slides in from right
-      tl.from('.hero-car', {
-        x: 180,
-        opacity: 0,
-        duration: 1.4,
-      })
+      // Reveal: overlay começa opaco e some revelando o vídeo
+      tl.to('.hero-veil', { opacity: 0, duration: 1.6, ease: 'power2.inOut' })
 
-      // Text sequence
-      tl.from('.hero-label', { y: 20, opacity: 0, duration: 0.5 }, '-=0.8')
-      tl.from('.hero-title span', { y: 70, opacity: 0, duration: 0.7, stagger: 0.12 }, '-=0.4')
-      tl.from('.hero-sub', { y: 24, opacity: 0, duration: 0.5 }, '-=0.3')
-      tl.from('.hero-cta', { y: 20, opacity: 0, duration: 0.5 }, '-=0.2')
+      // Texto em sequência
+      tl.from('.hero-label', { y: 20, opacity: 0, duration: 0.5 }, '-=0.7')
+      tl.from('.hero-title span', { y: 80, opacity: 0, duration: 0.7, stagger: 0.13 }, '-=0.3')
+      tl.from('.hero-sub',  { y: 24, opacity: 0, duration: 0.5 }, '-=0.3')
+      tl.from('.hero-cta',  { y: 20, opacity: 0, duration: 0.5 }, '-=0.2')
 
-      // Parallax: car drifts slightly as user scrolls
-      gsap.to('.hero-car', {
-        xPercent: 8,
+      // Scroll: overlay escurece levemente
+      gsap.to('.hero-scroll-dark', {
+        opacity: 0.6,
         ease: 'none',
         scrollTrigger: {
           trigger: container.current,
           start: 'top top',
-          end: 'bottom top',
-          scrub: 1.8,
-        },
-      })
-
-      // Background darkens slightly on scroll
-      gsap.to('.hero-overlay', {
-        opacity: 0.95,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: container.current,
-          start: 'top top',
-          end: '40% top',
+          end: '50% top',
           scrub: true,
         },
       })
@@ -64,32 +47,42 @@ export default function HeroAnimated({ waLink }: HeroAnimatedProps) {
       ref={container}
       className="relative h-screen min-h-[640px] flex items-center overflow-hidden bg-[#0A0A0A]"
     >
-      {/* Car — right side, animated */}
-      <div className="hero-car absolute right-0 top-0 w-full md:w-3/4 h-full">
-        <Image
-          src="/hero.png"
-          alt="Reina Studio Car Detailing"
-          fill
-          className="object-cover object-left"
-          priority
-        />
-        {/* Gradient: left = solid dark, right = transparent */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A] via-[#0A0A0A]/70 to-transparent" />
+      {/* Fallback image (exibida se o vídeo não carregar) */}
+      <div className="absolute inset-0">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/hero.png" alt="" className="w-full h-full object-cover object-center" />
       </div>
 
+      {/* Vídeo background */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover object-center"
+      >
+        <source src="/video-hero.mp4" type="video/mp4" />
+      </video>
+
+      {/* Overlay base sempre presente */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/20" />
+
+      {/* Overlay de reveal — começa opaco e clareia com GSAP */}
+      <div className="hero-veil absolute inset-0 bg-[#0A0A0A]" />
+
       {/* Overlay que escurece no scroll */}
-      <div className="hero-overlay absolute inset-0 bg-[#0A0A0A]/0 pointer-events-none" />
+      <div className="hero-scroll-dark absolute inset-0 bg-[#0A0A0A] opacity-0 pointer-events-none" />
 
       {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0A0A0A] to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#0A0A0A] to-transparent pointer-events-none" />
 
-      {/* Content */}
+      {/* Conteúdo */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-20">
         <p className="hero-label text-[#D01C1C] text-xs font-semibold tracking-[0.4em] uppercase mb-6">
           Reina Studio Car Detailing — Londrina, PR
         </p>
 
-        <h1 className="font-bebas leading-none mb-6 overflow-hidden" style={{ fontSize: 'clamp(60px, 10vw, 130px)' }}>
+        <h1 className="font-bebas leading-none mb-6" style={{ fontSize: 'clamp(60px, 10vw, 130px)' }}>
           <span className="block">SEU CARRO</span>
           <span className="block">MERECE</span>
           <span className="block text-[#D01C1C]">O MELHOR.</span>
